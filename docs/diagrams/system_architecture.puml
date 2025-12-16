@@ -1,0 +1,98 @@
+@startuml System Architecture
+
+title SOME/IP Stack System Architecture
+
+package "Application Layer" as App {
+    component [SOME/IP Client] as Client
+    component [SOME/IP Server] as Server
+    component [Service Proxy] as Proxy
+    component [Service Skeleton] as Skeleton
+}
+
+package "Protocol Layer" as Protocol {
+    component [RPC Engine] as RPC
+    component [Event System] as Events
+    component [Service Discovery] as SD
+    component [Transport Protocol] as TP
+}
+
+package "Transport Layer" as Transport {
+    component [UDP Transport] as UDP
+    component [TCP Transport] as TCP
+    component [Multicast Manager] as MCast
+    component [Connection Manager] as ConnMgr
+}
+
+package "Core Layer" as Core {
+    component [Message Serializer] as Serializer
+    component [Message Parser] as Parser
+    component [Session Manager] as SessionMgr
+    component [Error Handler] as ErrorHandler
+}
+
+package "Safety Layer" as Safety {
+    component [Fault Monitor] as FaultMon
+    component [Safety Manager] as SafetyMgr
+    component [Recovery Manager] as RecoveryMgr
+    component [Diagnostic Interface] as Diag
+}
+
+package "Infrastructure" as Infra {
+    component [Configuration Manager] as Config
+    component [Logging System] as Logger
+    component [Memory Manager] as MemMgr
+    component [Thread Manager] as ThreadMgr
+}
+
+' Application to Protocol
+Client --> RPC : RPC Calls
+Server --> RPC : RPC Responses
+Proxy --> SD : Service Discovery
+Skeleton --> Events : Event Publishing
+
+' Protocol to Transport
+RPC --> UDP : UDP Messages
+RPC --> TCP : TCP Messages
+SD --> MCast : Multicast Messages
+TP --> UDP : Segmented Messages
+
+' Protocol to Core
+RPC --> Serializer : Serialize Messages
+RPC --> Parser : Parse Messages
+SD --> SessionMgr : Session Management
+Events --> SessionMgr : Event Sessions
+
+' All layers to Safety
+App --> SafetyMgr : Safety Monitoring
+Protocol --> FaultMon : Fault Detection
+Transport --> FaultMon : Transport Faults
+Core --> RecoveryMgr : Error Recovery
+
+' All layers to Infrastructure
+App --> Config : Configuration
+Protocol --> Logger : Protocol Logging
+Transport --> MemMgr : Memory Management
+Core --> ThreadMgr : Thread Safety
+
+' Safety to Infrastructure
+SafetyMgr --> Logger : Safety Events
+RecoveryMgr --> Config : Recovery Config
+Diag --> Logger : Diagnostic Data
+
+note right of Safety
+    ASIL-B Safety Features:
+    - Fault containment
+    - Error recovery
+    - Diagnostic monitoring
+    - Safe state management
+end note
+
+note right of Transport
+    Transport Bindings:
+    - UDP (default)
+    - TCP (optional)
+    - Multicast for SD
+    - Connection pooling
+end note
+
+@enduml

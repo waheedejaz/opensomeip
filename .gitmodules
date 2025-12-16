@@ -1,0 +1,3 @@
+[submodule "open-someip-spec"]
+	path = open-someip-spec
+	url = https://github.com/some-ip-com/open-someip-spec.git

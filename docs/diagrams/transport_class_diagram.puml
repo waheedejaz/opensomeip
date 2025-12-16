@@ -1,0 +1,154 @@
+@startuml Transport Layer Classes
+
+title Transport Layer Class Diagram
+
+interface ITransport {
+    +sendMessage(message: Message, endpoint: Endpoint): Result
+    +receiveMessage(): Message
+    +connect(endpoint: Endpoint): Result
+    +disconnect(): Result
+    +isConnected(): bool
+    +getLocalEndpoint(): Endpoint
+}
+
+interface ITransportListener {
+    +onMessageReceived(message: Message): void
+    +onConnectionLost(endpoint: Endpoint): void
+    +onConnectionEstablished(endpoint: Endpoint): void
+}
+
+class TransportManager {
+    -std::vector<std::unique_ptr<ITransport>> transports
+    -std::unordered_map<Endpoint, ITransport*> endpointMap
+    -ITransportListener* listener
+    -std::mutex transportMutex
+
+    +registerTransport(transport: ITransport*): void
+    +unregisterTransport(transport: ITransport*): void
+    +getTransport(endpoint: Endpoint): ITransport*
+    +setListener(listener: ITransportListener*): void
+    +sendMessage(message: Message, endpoint: Endpoint): Result
+    +broadcastMessage(message: Message): void
+}
+
+class UdpTransport {
+    -int socketFd
+    -Endpoint localEndpoint
+    -std::thread receiveThread
+    -std::atomic<bool> running
+    -ITransportListener* listener
+    -std::mutex socketMutex
+    -std::queue<Message> receiveQueue
+
+    +UdpTransport(localEndpoint: Endpoint)
+    +sendMessage(message: Message, endpoint: Endpoint): Result
+    +connect(endpoint: Endpoint): Result
+    +disconnect(): Result
+    +isConnected(): bool
+    +getLocalEndpoint(): Endpoint
+    +setListener(listener: ITransportListener*): void
+    -receiveLoop(): void
+    -processReceivedData(data: std::vector<uint8_t>, sender: Endpoint): void
+}
+
+class TcpTransport {
+    -int socketFd
+    -Endpoint localEndpoint
+    -Endpoint remoteEndpoint
+    -std::thread receiveThread
+    -std::atomic<bool> running
+    -ITransportListener* listener
+    -std::mutex socketMutex
+    -bool connected
+
+    +TcpTransport(localEndpoint: Endpoint)
+    +sendMessage(message: Message, endpoint: Endpoint): Result
+    +connect(endpoint: Endpoint): Result
+    +disconnect(): Result
+    +isConnected(): bool
+    +getLocalEndpoint(): Endpoint
+    +setListener(listener: ITransportListener*): void
+    -receiveLoop(): void
+    -handleConnection(): void
+}
+
+class MulticastTransport {
+    -int socketFd
+    -Endpoint multicastGroup
+    -Endpoint localEndpoint
+    -std::thread receiveThread
+    -std::atomic<bool> running
+    -ITransportListener* listener
+    -std::mutex socketMutex
+
+    +MulticastTransport(multicastGroup: Endpoint, localEndpoint: Endpoint)
+    +sendMessage(message: Message, endpoint: Endpoint): Result
+    +joinGroup(): Result
+    +leaveGroup(): Result
+    +isJoined(): bool
+    +setListener(listener: ITransportListener*): void
+    -receiveLoop(): void
+}
+
+class Endpoint {
+    +std::string address
+    +uint16_t port
+    +TransportProtocol protocol
+
+    +Endpoint(address: std::string, port: uint16_t, protocol: TransportProtocol)
+    +toString(): std::string
+    +isMulticast(): bool
+    +isValid(): bool
+}
+
+enum TransportProtocol {
+    UDP
+    TCP
+    MULTICAST_UDP
+}
+
+enum Result {
+    SUCCESS
+    NETWORK_ERROR
+    TIMEOUT
+    INVALID_ENDPOINT
+    NOT_CONNECTED
+    BUFFER_OVERFLOW
+    PERMISSION_DENIED
+}
+
+' Relationships
+ITransport <|.. UdpTransport : implements
+ITransport <|.. TcpTransport : implements
+ITransport <|.. MulticastTransport : implements
+
+TransportManager *-- ITransport : manages
+TransportManager --> ITransportListener : notifies
+
+UdpTransport --> ITransportListener : notifies
+TcpTransport --> ITransportListener : notifies
+MulticastTransport --> ITransportListener : notifies
+
+UdpTransport *-- Endpoint : uses
+TcpTransport *-- Endpoint : uses
+MulticastTransport *-- Endpoint : uses
+
+Endpoint *-- TransportProtocol : uses
+
+' Thread Safety Notes
+note right of TransportManager
+    Thread-safe operations:
+    - Mutex-protected transport map
+    - Atomic message queuing
+    - Safe concurrent access
+end note
+
+note right of UdpTransport
+    UDP Transport Features:
+    - Connectionless communication
+    - Multicast support
+    - Asynchronous receive loop
+    - Socket error handling
+end note
+
+@enduml

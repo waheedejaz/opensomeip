@@ -1,0 +1,11 @@
+# Python testing framework dependencies
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-timeout>=2.1.0
+pytest-cov>=4.0.0
+
+# Network testing (optional)
+scapy>=2.5.0
+
+# Utilities
+psutil>=5.9.0
