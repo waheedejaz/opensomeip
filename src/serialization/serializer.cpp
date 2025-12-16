@@ -14,6 +14,12 @@
 #include "serialization/serializer.h"
 #include <cstring>
 #include <algorithm>
+#if defined(_WIN32)
+#include <winsock2.h>
+#else
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#endif
 
 namespace someip {
 namespace serialization {
