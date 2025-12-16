@@ -19,6 +19,7 @@
 #include <string>
 #include <chrono>
 #include <memory>
+#include <functional>
 
 namespace someip {
 namespace sd {
