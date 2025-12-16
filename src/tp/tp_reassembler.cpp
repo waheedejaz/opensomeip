@@ -13,6 +13,7 @@
 
 #include "tp/tp_reassembler.h"
 #include <algorithm>
+#include <mutex>
 
 namespace someip {
 namespace tp {
