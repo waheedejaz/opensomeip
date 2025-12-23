@@ -1,6 +1,6 @@
 # Infrastructure Validation Tests
 
-Test multicast connectivity between host and Docker containers before running vsomeip interop tests.
+Test multicast connectivity between host and Docker containers before running SOME/IP interop tests.
 
 ## Test 1: Host-to-Host Multicast (Sanity Check)
 
@@ -110,7 +110,7 @@ print('Sent!')
 
 For Colima, multicast between host and container is NOT directly supported. Options:
 
-1. **Run both in containers**: Put your stack AND vsomeip in Docker containers on the same Docker network
+1. **Run both in containers**: Put both endpoints in Docker containers on the same Docker network
 2. **Use Linux VM**: Run tests inside the Colima VM
 3. **Use native Linux**: Run on actual Linux machine
 
