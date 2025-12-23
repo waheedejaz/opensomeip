@@ -10,6 +10,7 @@ add_executable(method_calls_client client.cpp)
 target_link_libraries(method_calls_client someip-rpc)
 target_include_directories(method_calls_client PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
+
 # Custom targets for convenience
 add_custom_target(method_calls DEPENDS method_calls_server method_calls_client)
 add_custom_target(run_method_calls_server

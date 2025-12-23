@@ -10,6 +10,7 @@ add_executable(hello_world_client client.cpp)
 target_link_libraries(hello_world_client someip-transport)
 target_include_directories(hello_world_client PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
+
 # Custom targets for convenience
 add_custom_target(hello_world DEPENDS hello_world_server hello_world_client)
 add_custom_target(run_hello_world_server

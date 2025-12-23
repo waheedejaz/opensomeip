@@ -15,13 +15,23 @@ The Method Calls example implements a calculator service with three methods:
 - `client.cpp` - Calculator client that invokes the methods
 - `README.md` - This documentation
 
+## Building the Example
+
+First, build the entire project from the main directory:
+
+```bash
+# From the project root directory
+mkdir build && cd build
+cmake ..
+make
+```
+
 ## Running the Example
 
 ### Terminal 1 - Start the Server
 ```bash
-cd examples/basic/method_calls
-make server
-./server
+# From the project root directory (after building)
+./build/bin/method_calls_server
 ```
 
 You should see:
@@ -37,9 +47,8 @@ Calculator Server running. Press Ctrl+C to exit.
 
 ### Terminal 2 - Run the Client
 ```bash
-cd examples/basic/method_calls
-make client
-./client
+# From the project root directory (after building)
+./build/bin/method_calls_client
 ```
 
 You should see output like:

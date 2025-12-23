@@ -14,13 +14,23 @@ The Hello World example consists of two programs:
 - `client.cpp` - The Hello World client implementation
 - `README.md` - This documentation
 
+## Building the Example
+
+First, build the entire project from the main directory:
+
+```bash
+# From the project root directory
+mkdir build && cd build
+cmake ..
+make
+```
+
 ## Running the Example
 
 ### Terminal 1 - Start the Server
 ```bash
-cd examples/basic/hello_world
-make server
-./server
+# From the project root directory (after building)
+./build/bin/hello_world_server
 ```
 
 You should see:
@@ -34,9 +44,27 @@ Waiting for 'Hello' messages...
 
 ### Terminal 2 - Run the Client
 ```bash
-cd examples/basic/hello_world
-make client
-./client
+# From the project root directory (after building)
+./build/bin/hello_world_client
+```
+
+You should see:
+```
+=== SOME/IP Hello World Client ===
+Hello World Client started on 127.0.0.1:xxxxx
+Sending message: 'Hello from Client!' to 127.0.0.1:30490
+Received message from 127.0.0.1:30490
+Message: Service:0x1000, Method:0x0001, Type:RESPONSE, Length:52
+Server responded: 'Hello World! Server received: Hello from Client!'
+Client finished.
+```
+
+And the server will show:
+```
+Received message from 127.0.0.1:xxxxx
+Message: Service:0x1000, Method:0x0001, Type:REQUEST, Length:20
+Client said: 'Hello from Client!'
+Sent greeting: 'Hello World! Server received: Hello from Client!'
 ```
 
 You should see:

@@ -10,6 +10,7 @@ add_executable(complex_types_client client.cpp)
 target_link_libraries(complex_types_client someip-rpc)
 target_include_directories(complex_types_client PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
+
 # Custom targets for convenience
 add_custom_target(complex_types DEPENDS complex_types_server complex_types_client)
 add_custom_target(run_complex_types_server

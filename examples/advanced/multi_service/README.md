@@ -53,11 +53,23 @@ Multi-Service Server
 
 ## Running the Example
 
+## Building the Example
+
+First, build the entire project from the main directory:
+
+```bash
+# From the project root directory
+mkdir build && cd build
+cmake ..
+make
+```
+
+## Running the Example
+
 ### Terminal 1 - Start the Multi-Service Server
 ```bash
-cd examples/advanced/multi_service
-make server
-./server
+# From the project root directory (after building)
+./build/bin/multi_service_server
 ```
 
 You should see:
@@ -78,9 +90,8 @@ All services are active and accepting requests...
 
 ### Terminal 2 - Run the Multi-Service Client
 ```bash
-cd examples/advanced/multi_service
-make client
-./client
+# From the project root directory (after building)
+./build/bin/multi_service_client
 ```
 
 The client will demonstrate interactions with all four services:

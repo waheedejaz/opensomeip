@@ -10,6 +10,7 @@ add_executable(multi_service_client client.cpp)
 target_link_libraries(multi_service_client someip-rpc)
 target_include_directories(multi_service_client PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
+
 # Custom targets for convenience
 add_custom_target(multi_service DEPENDS multi_service_server multi_service_client)
 add_custom_target(run_multi_service_server

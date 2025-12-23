@@ -98,33 +98,27 @@ mkdir build && cd build
 cmake .. && make
 
 # Quick start - Hello World example
-cd examples/basic/hello_world
-make server
-./server &
-
-make client
-./client
+./build/bin/hello_world_server &
+./build/bin/hello_world_client
 ```
 
 ### Individual Example Commands
 ```bash
-# Hello World
+# Build examples (from build directory)
 make hello_world_server hello_world_client
-
-# Method Calls
 make method_calls_server method_calls_client
-
-# Events
-make events_publisher events_subscriber
-
-# Complex Types
 make complex_types_server complex_types_client
-
-# Large Messages
 make large_messages_server large_messages_client
-
-# Multi-Service
 make multi_service_server multi_service_client
+
+# Run examples (from project root)
+./build/bin/hello_world_server &
+./build/bin/hello_world_client
+
+./build/bin/method_calls_server &
+./build/bin/method_calls_client
+
+# ... etc for other examples
 ```
 
 ## Learning Path

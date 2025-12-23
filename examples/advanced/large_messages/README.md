@@ -30,13 +30,23 @@ The Large Messages example shows how to handle data transfers larger than standa
 - `client.cpp` - Client demonstrating large message transfers and verification
 - `README.md` - This documentation
 
+## Building the Example
+
+First, build the entire project from the main directory:
+
+```bash
+# From the project root directory
+mkdir build && cd build
+cmake ..
+make
+```
+
 ## Running the Example
 
 ### Terminal 1 - Start the Server
 ```bash
-cd examples/advanced/large_messages
-make server
-./server
+# From the project root directory (after building)
+./build/bin/large_messages_server
 ```
 
 You should see:
@@ -53,9 +63,8 @@ Large Messages Server running. Press Ctrl+C to exit.
 
 ### Terminal 2 - Run the Client
 ```bash
-cd examples/advanced/large_messages
-make client
-./client
+# From the project root directory (after building)
+./build/bin/large_messages_client
 ```
 
 You should see demonstrations of:

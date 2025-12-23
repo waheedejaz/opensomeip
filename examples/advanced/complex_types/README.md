@@ -47,13 +47,23 @@ struct SensorArray {
 - `client.cpp` - Client demonstrating serialization and deserialization
 - `README.md` - This documentation
 
+## Building the Example
+
+First, build the entire project from the main directory:
+
+```bash
+# From the project root directory
+mkdir build && cd build
+cmake ..
+make
+```
+
 ## Running the Example
 
 ### Terminal 1 - Start the Server
 ```bash
-cd examples/advanced/complex_types
-make server
-./server
+# From the project root directory (after building)
+./build/bin/complex_types_server
 ```
 
 You should see:
@@ -69,9 +79,8 @@ Complex Types Server running. Press Ctrl+C to exit.
 
 ### Terminal 2 - Run the Client
 ```bash
-cd examples/advanced/complex_types
-make client
-./client
+# From the project root directory (after building)
+./build/bin/complex_types_client
 ```
 
 You should see output demonstrating:

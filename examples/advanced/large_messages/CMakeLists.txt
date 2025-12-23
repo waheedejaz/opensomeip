@@ -10,6 +10,7 @@ add_executable(large_messages_client client.cpp)
 target_link_libraries(large_messages_client someip-rpc someip-tp)
 target_include_directories(large_messages_client PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
+
 # Custom targets for convenience
 add_custom_target(large_messages DEPENDS large_messages_server large_messages_client)
 add_custom_target(run_large_messages_server
